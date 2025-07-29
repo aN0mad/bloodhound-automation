@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 from pathlib import Path
 from colorama import Fore, Back, Style
@@ -18,3 +19,13 @@ def createDir(directory_path: Path, project_name: Path) -> bool:
             return False
     else:
         return True
+
+# Docker compose command with compatibility with v1 and v2 of docker compose
+if subprocess.run(["docker", "compose", "version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0:
+    command = ["docker", "compose"]
+elif subprocess.run(["docker-compose", "version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0:
+    command = ["docker-compose"]
+    print(Fore.YELLOW + f"[!] WARNING : you are using the outdated v1 of docker compose. Consider installing the v2." + Style.RESET_ALL)
+else:
+    print(Fore.RED + f"[-] No docker version found, this tool requires docker. Please check your docker installation." + Style.RESET_ALL)
+    exit(1)

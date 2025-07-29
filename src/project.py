@@ -222,12 +222,11 @@ class Project:
         # Run docker-compose
         try:
             with open(self.source_directory / self.name / "logs.txt", "w") as output_log:
-                docker_compose_bin = ["docker", "compose"]
                 docker_pull = subprocess.Popen(
-                    [*docker_compose_bin, "pull"], cwd=self.source_directory / self.name, text=True, stdout=output_log, stderr=output_log
+                    [*utils.command, "pull"], cwd=self.source_directory / self.name, text=True, stdout=output_log, stderr=output_log
                     )
                 docker_process = subprocess.Popen(
-                    [*docker_compose_bin, "up"], cwd=self.source_directory / self.name, text=True, stdout=output_log, stderr=output_log
+                    [*utils.command, "up"], cwd=self.source_directory / self.name, text=True, stdout=output_log, stderr=output_log
                     )
         except subprocess.CalledProcessError as e:
             print(Fore.RED + f"An error occurred: {e}")
@@ -376,9 +375,8 @@ class Project:
 
         try:
             with open(self.source_directory / self.name / "logs.txt", "w") as output_log:
-                docker_compose_bin = ["docker", "compose"]
                 docker_stop = subprocess.Popen(
-                    [*docker_compose_bin, "stop"], cwd=self.source_directory / self.name, text=True, stdout=output_log,
+                    [*utils.command, "stop"], cwd=self.source_directory / self.name, text=True, stdout=output_log,
                     stderr=output_log
                 )
                 print(Fore.GREEN + f"[+] Done!" + Style.RESET_ALL)
@@ -397,9 +395,8 @@ class Project:
         # Run docker-compose
         try:
             with open(self.source_directory / self.name / "logs.txt", "a") as output_log:
-                docker_compose_bin = ["docker", "compose"]
                 docker_process = subprocess.Popen(
-                    [*docker_compose_bin, "down"], cwd=self.source_directory / self.name, text=True, stdout=output_log, stderr=output_log
+                    [*utils.command, "down"], cwd=self.source_directory / self.name, text=True, stdout=output_log, stderr=output_log
                     )
         except subprocess.CalledProcessError as e:
             print(Fore.RED + f"An error occurred: {e}")
