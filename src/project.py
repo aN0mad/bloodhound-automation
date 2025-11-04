@@ -78,7 +78,7 @@ class Project:
                 log = logfile.read()
                 if "Initial Password Set To" in log:
                     start_index = log.find("Initial Password Set To:") + len("Initial Password Set To:")
-                    end_index = log.find('#"}', start_index)
+                    end_index = log.find('#', start_index)
                     adminPassword = log[start_index:end_index].strip()
                     return adminPassword
                 if time.time() - start_time > self.timeout:
